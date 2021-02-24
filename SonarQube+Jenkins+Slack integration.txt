@@ -16,7 +16,7 @@ TCP
 SSH
 HTTPS
 
-#On sonarqube server:
+On sonarqube server:
 
 Install java https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-on-ubuntu-18-04
 You gonna need, wget unzip
@@ -93,7 +93,7 @@ web.log
 Access.log
 For latest logs, tail -f access.log
 
-#On jenkins server:
+On jenkins server:
 
 Install java, Maven & Jenkins
 Jenkins guide: https://www.jenkins.io/doc/book/installing/linux/
