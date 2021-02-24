@@ -16,8 +16,7 @@ TCP
 SSH
 HTTPS
 
-
-On sonarqube server:
+#On sonarqube server:
 
 Install java https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-on-ubuntu-18-04
 You gonna need, wget unzip
@@ -34,15 +33,15 @@ sudo apt install postgresql postgresql-contrib
 sudo postgresql-setup --initdb
 find / -name pg_hba.conf
 nano pg_hba.conf, and make it like the screenshot, change IPv4 to host where you want to connect
-find / -name postgresql.conf, and change local address ‘*’ if you want to connect from anywhere 
+find / -name postgresql.conf, and change listen_addresses to ‘*’ if you want to connect from anywhere 
 ~
 service postgresql start
 #sudo systemctl start postgresql
 su - postgres
+#sudo -u postgres psql
+#sudo su - postgres
 \password postgres
 create user SONAR with encrypted password ‘SONAR’;
-
-
 create database sonarqubedb;
 grant all privileges on database sonarqubedb to SONAR
 \q
@@ -54,7 +53,7 @@ sonar.jdbc.password=SONAR
 sonar.jdbc.url=jdbc:postgresql://localhost/sonarqubedb
 sonar.web.host=0.0.0.0
 sonar.web.port=9000
-sudo su - sonar
+sudo su - sonaradmin
 cd /opt/sonarqube/bin/linux-x86-64 
 sh ./sonar.sh start
 sh ./sonar.sh status
@@ -94,7 +93,7 @@ web.log
 Access.log
 For latest logs, tail -f access.log
 
-On jenkins server:
+#On jenkins server:
 
 Install java, Maven & Jenkins
 Jenkins guide: https://www.jenkins.io/doc/book/installing/linux/
@@ -111,11 +110,36 @@ Install SonarQube Scanner plugin
 Go to Global Tool Configuration
 Add SonarQube Scanner
 Name: any
-uncheck install automatically
 SONAR_RUNNER_HOME, path to sonarscanner on server
+uncheck install automatically
 Go to Configure Systems
 SonarQube servers
 Name: any
 Server url: url
 Token from sonar -> administration -> security
-...
+Install Slack Notification Plugin
+Go to Slack, Install jenkins CI, Add jenkins CI integration, follow the setup guide
+In Jenkins > plugin manager, Install Bitbucket Plugin
+~
+Pipeline configurations
+
+Create new freestyle job,
+Specify source code management
+Branches to build, refs/remotes/origin/develop, will follow develop branch
+In Build, Execute SonarQube Scanner
+In Analysis properties, write down sonar configs
+
+sonar.projectKey=ebs-jenkins-sonar
+sonar.sources=.
+sonar.java.binaries=.
+
+these configs are for multi module java applications, change accordingly
+~
+In Build Triggers,
+choose Build when a change is pushed to BitBucket > for triggering the pipeline for each commit on repo
+~
+In Post-build Actions,
+check the following, Notify Build Start, Notify Success, Notify Every Failure, Notify Back To Normal.
+~
+Click Advanced settings, and  parse a custom msg for desired stage
+~
