@@ -143,3 +143,16 @@ check the following, Notify Build Start, Notify Success, Notify Every Failure, N
 ~
 Click Advanced settings, and  parse a custom msg for desired stage
 ~
+
+sonar configurations for generating test coverage with jococo
+
+sonar.projectKey=b
+sonar.sources=
+sonar.java.binaries=
+sonar.sourceEncoding=UTF-8
+sonar.language=java
+sonar.junit.reportsPath=xxx/target/surefire-reports
+sonar.surefire.reportsPath=xxx/target/surefire-reports
+sonar.verbose=true
+sonar.jacoco.reportPaths=xxx/target/coverage-reports/jacoco-unit.exec
+sonar.java.coveragePlugin=jacoco
