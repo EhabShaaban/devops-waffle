@@ -120,3 +120,35 @@ Resources:
             RouteTableId: !Ref PrivateRouteTable
             DestinationCidrBlock: 0.0.0.0/0
             NatGatewayId: !Ref NatGateway
+    
+Outputs: 
+
+    VPC: 
+        Description: A reference to the created VPC
+        Value: !Ref VPC
+        Export:
+          Name: !Sub ${EnvironmentName}-VPCID
+
+    PublicRouteTable:
+        Description: Public Routing
+        Value: !Ref PublicRouteTable
+        Export:
+          Name: !Sub ${EnvironmentName}-PUB-RT
+
+    PrivateRouteTable:
+        Description: Private Routing
+        Value: !Ref PrivateRouteTable
+        Export:
+          Name: !Sub ${EnvironmentName}-PRI1-RT
+
+    PublicSubnet:
+        Description: Public Subnet
+        Value: !Ref PublicSubnet
+        Export:
+          Name: !Sub ${EnvironmentName}-PUB-NETS
+
+    PrivateSubnet:
+        Description: Private Subnet
+        Value: !Ref PrivateSubnet
+        Export:
+          Name: !Sub ${EnvironmentName}-PRIV-NETS
