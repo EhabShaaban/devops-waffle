@@ -1,0 +1,7 @@
+---
+- name: Trying bunch of stuff
+  hosts: localhost
+
+  roles:
+   - prepare
+   - apache
