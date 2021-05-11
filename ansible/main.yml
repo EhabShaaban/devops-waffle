@@ -5,3 +5,4 @@
   roles:
    - prepare
    - apache
+   - print
